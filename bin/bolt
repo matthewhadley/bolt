@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+BOLT_VERSION="0.0.1"
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  # if $SOURCE was a relative symlink, resolve it relative to the path where the symlink file was located
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+BOLT_DIR="$( cd -P "$( dirname "$SOURCE" )/.." && pwd )"
+
+BOLT_OPERATION=$1
+
+if [ "$BOLT_OPERATION" == "verbose" ];then
+  BOLT_VERBOSE=1
+  BOLT_OPERATION=$2
+  shift
+fi
+
+for file in $BOLT_DIR/lib/*.sh; do
+  . $file
+done
+
+help() {
+  echo "bolt $BOLT_VERSION"
+}
+
+case $BOLT_OPERATION in
+  status|satisfy) source $2; reporter;;
+  do) BOLT_OPERATION="satisfy"; shift; ok $@; reporter;;
+  check) BOLT_OPERATION="status"; shift; ok $@; reporter;;
+  types)
+    for type in $BOLT_DIR/types/*.sh; do
+      echo "* $(basename ${type%.*})" && . $type 'desc'
+      echo ""
+    done
+    ;;
+  help|?|*) help;;
+esac
