@@ -24,11 +24,38 @@ for file in $BOLT_DIR/lib/*.sh; do
 done
 
 help() {
+  version
+  echo -e "\ncommands:"
+  echo "types   - view list of supported assertion types"
+  echo "status  - check state of bolt config"
+  echo "          bolt status config.sh"
+  echo "satsify - attempt to satisfy assertions in a bolt config"
+  echo "          bolt satisfy config.sh"
+  echo "check   - check state of a single bolt command"
+  echo "          bolt check dir foo"
+  echo "do      - satisfy a single bolt command"
+  echo "          bolt do dir foo"
+  echo ""
+  echo "\"verbose\" as the first argument will add more"
+  echo "detail to the operation output (if available)"
+  echo "          bolt verbose do dir foo"
+  echo ""
+}
+
+version() {
   echo "bolt $BOLT_VERSION"
 }
 
 case $BOLT_OPERATION in
-  status|satisfy) source $2; reporter;;
+  status|satisfy)
+    if [ -f $2 ];then
+      source $2; reporter
+    else
+      echo "Error: cannot read bolt config \"$2\""
+      echo -e "\nDid you mean to run:\nbolt do\n"
+      exit 1
+    fi
+    ;;
   do) BOLT_OPERATION="satisfy"; shift; ok $@; reporter;;
   check) BOLT_OPERATION="status"; shift; ok $@; reporter;;
   types)
@@ -37,5 +64,6 @@ case $BOLT_OPERATION in
       echo ""
     done
     ;;
+  version) version;;
   help|?|*) help;;
 esac

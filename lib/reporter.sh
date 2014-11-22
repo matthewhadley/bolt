@@ -1,6 +1,10 @@
 # format bolt run results
 reporter() {
   echo ""
+  if [[ $bolt_operations_count -lt 1 ]];then
+    echo "no bolt operations run"
+    return
+  fi
   echo ""
   if [ $bolt_error_count -gt 0 ];then
     echo -e "BOLT RUN ${RED}FAIL${DEF}"

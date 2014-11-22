@@ -69,7 +69,6 @@ case $action in
     ;;
 
   install|upgrade)
-    echo "wat"
     dir=$(dirname $target)
     [ "$dir" != . ] && mkdir -p $dir
     [ -n "$owner" ] && chown $owner $dir
