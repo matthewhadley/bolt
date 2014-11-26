@@ -26,8 +26,9 @@ done
 help() {
   version
   echo -e "\ncommands:"
-  echo "types   - view list of supported assertion types"
-  echo "status  - check state of bolt config"
+  echo "types   - view descriptions for supported assertion types"
+  echo "list    - list assertion types (for bash autocomplete)"
+  echo "status  - check state of a bolt config"
   echo "          bolt status config.sh"
   echo "satsify - attempt to satisfy assertions in a bolt config"
   echo "          bolt satisfy config.sh"
@@ -36,9 +37,9 @@ help() {
   echo "do      - satisfy a single bolt command"
   echo "          bolt do dir foo"
   echo ""
-  echo "\"verbose\" as the first argument will add more"
-  echo "detail to the operation output (if available)"
-  echo "          bolt verbose do dir foo"
+  echo "adding \"verbose\" before an assertion command will sometimes"
+  echo "add more detail to the operation output (if available)"
+  echo "          bolt verbose check yum nano"
   echo ""
 }
 
@@ -48,21 +49,41 @@ version() {
 
 case $BOLT_OPERATION in
   status|satisfy)
-    if [ -f $2 ];then
-      source $2; reporter
+    if [ -f "$2" ];then
+      source "$2"; reporter
     else
       echo "Error: cannot read bolt config \"$2\""
-      echo -e "\nDid you mean to run:\nbolt do\n"
       exit 1
     fi
     ;;
   do) BOLT_OPERATION="satisfy"; shift; ok $@; reporter;;
   check) BOLT_OPERATION="status"; shift; ok $@; reporter;;
-  types)
+  # generate a list of types for tab autocompletion
+  list)
+    list=""
     for type in $BOLT_DIR/types/*.sh; do
-      echo "* $(basename ${type%.*})" && . $type 'desc'
-      echo ""
+      list="$list$(basename ${type%.*}) "
     done
+    echo "$list"
+    ;;
+  # print help descriptions for supported types
+  types)
+    if [ -z $2 ];then
+      # for a single type
+      for type in $BOLT_DIR/types/*.sh; do
+        echo "* $(basename ${type%.*})" && . $type 'desc'
+        echo ""
+      done
+    else
+      # for all types
+      type=$BOLT_DIR/types/$2.sh
+      if [ -f "$type" ];then
+        . $type 'desc'
+      else
+        echo "unsupported type \"$2\""
+        exit 1
+      fi
+    fi
     ;;
   version) version;;
   help|?|*) help;;

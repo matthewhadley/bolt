@@ -75,3 +75,8 @@ assert presence of a user on the system
 assert package installed via yum on CentOS or RedHat
 > yum package
 ```
+
+## bash autocomplete
+
+Source `completion.sh` to get intelligent autocomplete of bolt commands
+
