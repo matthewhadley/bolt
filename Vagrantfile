@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "CentOS-base"
 
-  # ssh port settings
+  # ssh settings
   config.ssh.forward_agent = true
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   config.vm.network :forwarded_port, guest: 80, host: 8080
   # note to forward traffic to port 80 on osx use Vagrant Triggers:
+  # https://github.com/emyl/vagrant-triggers
   # vagrant plugin install vagrant-triggers
   #
   #config.trigger.after [:provision, :up, :reload] do
@@ -21,8 +22,6 @@ Vagrant.configure("2") do |config|
   #    rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 443 -> 127.0.0.1 port 4443
   #    " | sudo pfctl -ef - > /dev/null 2>&1; echo "==> Fowarding Ports: 80 -> 8080, 443 -> 4443 & Enabling pf"')
   #end
-
-  #config.vm.network :forwarded_port, guest: 3000, host: 3000
 
   # forwarding for ssh port
   # config.vm.network :forwarded_port, guest: 22, host: 2225, id: "ssh", auto_correct: true
@@ -38,7 +37,7 @@ Vagrant.configure("2") do |config|
 
   # add bolt symlinks in /vagrant to their locations in ~/dev
   config.vm.synced_folder "/vagrant/bolt", "/usr/local/bolt"
-  config.vm.synced_folder "/vagrant/bolt", "/etc/bolt"
+  config.vm.synced_folder "/vagrant/bolted", "/etc/bolt"
 
   config.vm.provision "shell", inline: "ln -s /usr/local/bolt/bin/bolt /usr/local/bin/bolt"
 
