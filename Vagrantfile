@@ -36,10 +36,12 @@ Vagrant.configure("2") do |config|
   # config.vm.synced_folder "./host", "/client"
 
   # add bolt symlinks in /vagrant to their locations in ~/dev
-  config.vm.synced_folder "/vagrant/bolt", "/usr/local/bolt"
+  config.vm.synced_folder "/vagrant/bolt", "/usr/local/lib/bolt"
   config.vm.synced_folder "/vagrant/bolted", "/etc/bolt"
+  config.vm.synced_folder "bats", "/usr/local/lib/bats"
 
-  config.vm.provision "shell", inline: "ln -s /usr/local/bolt/bin/bolt /usr/local/bin/bolt"
+  config.vm.provision "shell", inline: "ln -s /usr/local/lib/bolt/bin/bolt /usr/local/bin/bolt"
+  config.vm.provision "shell", inline: "ln -s /usr/local/lib/bats/bin/bats /usr/local/bin/bats"
 
   # Virtualbox machine config
   config.vm.provider :virtualbox do |vb|
