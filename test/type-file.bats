@@ -26,6 +26,16 @@ teardown () {
   [ $status -eq $STATUS_FAILED_PRECONDITION ]
 }
 
+@test "file status: returns FAILED_PRECONDITION when required owner is missing" {
+  run fn status $BATS_TMPDIR/file/dst/foo $BATS_TMPDIR/file/src/foo --owner missing
+  [ $status -eq $STATUS_FAILED_PRECONDITION ]
+}
+
+@test "file status: returns FAILED_PRECONDITION when required group is missing" {
+  run fn status $BATS_TMPDIR/file/dst/foo $BATS_TMPDIR/file/src/foo --group missing
+  [ $status -eq $STATUS_FAILED_PRECONDITION ]
+}
+
 @test "file status: returns OUTDATED when target file contents difer from source" {
   run fn status $BATS_TMPDIR/file/dst/bar $BATS_TMPDIR/file/src/foo
   [ $status -eq $STATUS_OUTDATED ]
@@ -67,4 +77,12 @@ teardown () {
   [ $status -eq $STATUS_OK ]
   owner=$(ls -l $BATS_TMPDIR/file/dst/owner | awk '{print $3}')
   [ $owner = "nobody" ]
+}
+
+@test "file install: creates target file and sets group" {
+  [ $EUID -ne 0 ] && skip "test must be run with root priveleges"
+  run fn install $BATS_TMPDIR/file/dst/owner $BATS_TMPDIR/file/src/foo --group nobody
+  [ $status -eq $STATUS_OK ]
+  group=$(ls -l $BATS_TMPDIR/file/dst/owner | awk '{print $4}')
+  [ $group = "nobody" ]
 }

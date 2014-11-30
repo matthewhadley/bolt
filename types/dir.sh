@@ -3,6 +3,7 @@
 # TODO
 # - add --perms
 # - add --owner
+# - add --group - how will this work for created newly nested dirs?
 
 action=$1
 dir=$2

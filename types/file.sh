@@ -7,6 +7,7 @@ shift 3
 
 perms=$(arg perms $@)
 owner=$(arg owner $@)
+group=$(arg group $@)
 
 case $action in
   desc)
@@ -14,6 +15,7 @@ case $action in
     echo "> file target source [arguments]"
     echo "--perms 755       permissions for the file"
     echo "--owner name      owner name of the file"
+    echo "--group name      group name of the file"
     ;;
 
   status)
@@ -26,6 +28,14 @@ case $action in
       owner_id=$(id -u $owner)
       if [ "$?" -gt 0 ]; then
         echo "unknown owner: $owner"
+        return $STATUS_FAILED_PRECONDITION
+      fi
+    fi
+
+    if [ -n "$group" ]; then
+      cat /etc/group | grep -E "^$group:"
+      if [ "$?" -gt 0 ]; then
+        echo "unknown group: $group"
         return $STATUS_FAILED_PRECONDITION
       fi
     fi
@@ -62,6 +72,15 @@ case $action in
         conflict=1
       fi
     fi
+    if [ -n "$group" ]; then
+      root || return $STATUS_FAILED_PRECONDITION
+      existing_group=$(ls -l $target | awk '{print $4}')
+      if [ "$existing_group" != $group ]; then
+        echo "expected group: $group"
+        echo "received group: $existing_group"
+        conflict=1
+      fi
+    fi
 
     [ -n "$conflict" ] && return $STATUS_CONFLICT
 
@@ -72,8 +91,10 @@ case $action in
     dir=$(dirname $target)
     [ "$dir" != . ] && mkdir -p $dir
     [ -n "$owner" ] && chown $owner $dir
+    [ -n "$group" ] && chgrp $group $dir
     cp $source $target
     [ -n "$owner" ] && chown $owner $target
+    [ -n "$group" ] && chgrp $group $target
     [ -n "$perms" ] && chmod $perms $target
     return 0
     ;;
