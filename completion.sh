@@ -3,8 +3,10 @@
 # command line tab completions for bolt. Source this file to add
 # tab auto completions to your environment for bolt
 # see https://devmanual.gentoo.org/tasks-reference/completion/index.html
+# and http://stackoverflow.com/a/19062943/1233020
 _bolt()
 {
+  compopt +o default
   local cur prev opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
@@ -19,7 +21,8 @@ _bolt()
 
   case "${prev}" in
     status|satisfy)
-      COMPREPLY=($(compgen -f ${COMP_WORDS[${COMP_CWORD}]} ) )
+      compopt -o default
+      COMPREPLY=()
       ;;
     do|check|types)
       COMPREPLY=( $(compgen -W "${types}" -- ${cur}) )
