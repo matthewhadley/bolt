@@ -1,3 +1,6 @@
+# 0.0.4
+- rename version to VERSION
+
 # 0.0.3
 - smarter autocomplete
 
