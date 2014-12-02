@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-BOLT_VERSION="0.0.1"
-
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -10,6 +8,8 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 BOLT_DIR="$( cd -P "$( dirname "$SOURCE" )/.." && pwd )"
+
+BOLT_VERSION=$(cat "$BOLT_DIR/version")
 
 BOLT_OPERATION=$1
 
@@ -56,8 +56,8 @@ case $BOLT_OPERATION in
       exit 1
     fi
     ;;
-  do) BOLT_OPERATION="satisfy"; shift; ok $@; reporter;;
-  check) BOLT_OPERATION="status"; shift; ok $@; reporter;;
+  do) BOLT_OPERATION="satisfy"; shift; ok $@; echo -e "\n";;
+  check) BOLT_OPERATION="status"; shift; ok $@; echo -e "\n";;
   # generate a list of types for tab autocompletion
   list)
     list=""
