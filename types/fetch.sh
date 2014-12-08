@@ -11,7 +11,7 @@ group=$(arg group $@)
 
 case $action in
   desc)
-    echo "interface for file type, with file retrieved from the internet"
+    echo "interface for file type, with file retrieved from remote filesystem via curl"
     echo "> file target source [arguments as per file type]"
     ;;
   *)

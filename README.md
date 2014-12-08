@@ -37,21 +37,26 @@ assert package installed via apt-get on Debian or Ubuntu linux
 assert presence of a directory
 > dir /tmp/foo
 
+* fetch
+interface for file type, with file retrieved from remote filesystem via curl
+> file target source [arguments as per file type]
+
 * file
 assert presence, checksum, owner and permissions of a file
 > file target source [arguments]
 --perms 755       permissions for the file
 --owner name      owner name of the file
+--group name      group name of the file
+
+* github
+interface for git type, using github user/repo combos
+> github diffsky/bolt [arguments as per git type]
 
 * git
 assert presence and state of a git repo
 > git git@github.com:diffsky/bolt [arguments]
 --dir    target   destination dir
 --branch foo      git branch (defaults to master)
-
-* github
-interface for git type, using github user/repo combos
-> github diffsky/bolt [arguments as per git type]
 
 * group
 assert presence of a unix group
