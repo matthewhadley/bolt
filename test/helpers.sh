@@ -8,7 +8,7 @@ done
 BATS_TMPDIR=$(mktemp -d -t bolt-dir.XXXXX)
 
 skip_travis() {
-  [ $TRAVIS_JOB_ID != "" ] && skip "requires non-travis environment"
+  [ "$TRAVIS_JOB_ID" != "" ] && skip "requires non-travis environment"
   return 0
 }
 
