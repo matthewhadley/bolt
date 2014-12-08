@@ -36,7 +36,7 @@ teardown () {
   [ $status -eq $STATUS_FAILED_PRECONDITION ]
 }
 
-@test "file status: returns OUTDATED when target file contents difer from source" {
+@test "file status: returns OUTDATED when target file contents differ from source" {
   run fn status $BATS_TMPDIR/file/dst/bar $BATS_TMPDIR/file/src/foo
   [ $status -eq $STATUS_OUTDATED ]
 }
