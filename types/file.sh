@@ -19,11 +19,14 @@ case $action in
     ;;
 
   status)
+
+    # check source file exists
     if [ ! -f $source ]; then
       echo "source file doesn't exist: $source"
       return $STATUS_FAILED_PRECONDITION
     fi
 
+    # check requested owner exists
     if [ -n "$owner" ]; then
       owner_id=$(id -u $owner)
       if [ "$?" -gt 0 ]; then
@@ -32,6 +35,7 @@ case $action in
       fi
     fi
 
+    # check requested group exists
     if [ -n "$group" ]; then
       cat /etc/group | grep -E "^$group:"
       if [ "$?" -gt 0 ]; then
@@ -40,6 +44,7 @@ case $action in
       fi
     fi
 
+    # check target does not exist
     if [ ! -f $target ]; then
       echo "target file doesn't exist: $target"
       return $STATUS_MISSING
@@ -48,13 +53,16 @@ case $action in
     sourcesum=$(md5_cmd $source)
     targetsum=$(md5_cmd $target)
 
+    # check if source file contents are outdated
     if [ "$targetsum" != $sourcesum ]; then
       echo "expected sum: $sourcesum"
       echo "received sum: $targetsum"
       return $STATUS_OUTDATED
     fi
 
+    # check for conflicts with existing file
     conflict=
+    # check existing permissions
     if [ -n "$perms" ]; then
       existing_perms=$(perms_cmd $target)
       if [ "$existing_perms" != $perms ]; then
@@ -63,6 +71,7 @@ case $action in
         conflict=1
       fi
     fi
+    # check existing owner
     if [ -n "$owner" ]; then
       root || return $STATUS_FAILED_PRECONDITION
       existing_user=$(ls -l $target | awk '{print $3}')
@@ -72,6 +81,7 @@ case $action in
         conflict=1
       fi
     fi
+    # check existing group
     if [ -n "$group" ]; then
       root || return $STATUS_FAILED_PRECONDITION
       existing_group=$(ls -l $target | awk '{print $4}')
