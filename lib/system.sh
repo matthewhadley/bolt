@@ -36,7 +36,7 @@ root() {
 
 # check for an executable
 exec () {
-  which $1 2>&- || { echo >&2 "exec: $1 not available" && return 1; }
+  which $1 &>/dev/null || { echo "exec: $1 not available" && return 1; }
 }
 
 # creates a temporary directory for bolt to use
