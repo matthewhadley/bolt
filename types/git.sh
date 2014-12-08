@@ -72,7 +72,7 @@ case $action in
 
     # check local divergence behind
     match "$state" "\[behind"
-    [ "$?" -eq 0 ] && cd $OWD && return $STATUS_OUTDATED
+    [ $? -eq 0 ] && cd $OWD && return $STATUS_OUTDATED
 
     cd $OWD
     return $STATUS_OK
@@ -81,7 +81,7 @@ case $action in
   install)
     mkdir -p $dir
     git clone $url $dir
-    [ $? -gt 0 ] && return $STATUS_FAILED
+    [ ! -d $dir ] && cd $OWD && return $STATUS_FAILED
     cd $dir
     git checkout $branch &>/dev/null
     cd $OWD
