@@ -81,8 +81,8 @@ teardown () {
 
 @test "file install: creates target file and sets group" {
   [ $EUID -ne 0 ] && skip "test must be run with root priveleges"
-  run fn install $BATS_TMPDIR/file/dst/owner $BATS_TMPDIR/file/src/foo --group nobody
+  run fn install $BATS_TMPDIR/file/dst/group $BATS_TMPDIR/file/src/foo --group nobody
   [ $status -eq $STATUS_OK ]
-  group=$(ls -l $BATS_TMPDIR/file/dst/owner | awk '{print $4}')
+  group=$(ls -l $BATS_TMPDIR/file/dst/group | awk '{print $4}')
   [ $group = "nobody" ]
 }
