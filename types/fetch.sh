@@ -17,10 +17,8 @@ case $action in
   *)
     exec "curl" || return $STATUS_FAILED_PRECONDITION
 
-    # create a tmp dir to put file in
-    TMPDIR=$(tmpdir)
     # create a tmp file to put contents in
-    TMPFILE=$(mktemp -p $TMPDIR)
+    TMPFILE=$(mktemp -t bolt-file.XXXXX)
 
     # fetch the file with curl on silent (-s) and return fail values (-f)
     curl -sf $source > $TMPFILE

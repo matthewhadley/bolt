@@ -38,12 +38,3 @@ root() {
 exec () {
   which $1 &>/dev/null || { echo "exec: $1 not available" && return 1; }
 }
-
-# creates a temporary directory for bolt to use
-# returns the created dir for this session
-tmpdir() {
-  if [ -z "$BOLT_TMPDIR" ];then
-    BOLT_TMPDIR=$(mktemp -d -t bolt-dir.XXXXX)
-  fi
-  echo "$BOLT_TMPDIR"
-}

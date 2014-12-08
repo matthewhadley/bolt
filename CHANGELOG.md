@@ -1,3 +1,6 @@
+# 0.0.6
+- cross-system tmp file creation (used by fetch type)
+
 # 0.0.5
 - add fetch assertion type, which curls remote files
 - redo exec check to not echo out found executable
