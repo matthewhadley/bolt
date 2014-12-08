@@ -81,6 +81,7 @@ case $action in
   install)
     mkdir -p $dir
     git clone $url $dir
+    [ $? -gt 0 ] && return $STATUS_FAILED
     cd $dir
     git checkout $branch &>/dev/null
     cd $OWD
