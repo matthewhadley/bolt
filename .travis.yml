@@ -1,6 +1,6 @@
 language: bash
 before_install:
-  - apt-get install shellcheck
+  - sudo apt-get install shellcheck
   - wget https://github.com/sstephenson/bats/archive/v0.4.0.tar.gz -O /tmp/bats.tar.gz
   - tar -xvf /tmp/bats.tar.gz
   - export PATH=$PATH:$PWD/bats-0.4.0/bin/
