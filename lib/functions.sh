@@ -7,6 +7,7 @@ match () {
 # --foo bar --zzz aaa
 # splits argument string on `--` separator then attempts to
 # find desired key and return associated value
+# shellcheck disable=SC2001
 arg() {
   local key=$1
   shift
