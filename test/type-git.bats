@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-fn() { . $BOLT_DIR/types/git.sh $@; }
+fn() { . $BOLT_DIR/types/git.sh $*; }
 
 setup () {
   mkdir $BATS_TMPDIR/git
@@ -22,7 +22,7 @@ teardown () {
 
 @test "git status: returns MISSING if repo is not present" {
   skip_travis
-  run fn status $BATS_TMPDIR/git/foo
+  run fn status $BATS_TMPDIR/git/missing
   [ $status -eq $STATUS_MISSING ]
 }
 

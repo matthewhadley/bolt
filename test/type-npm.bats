@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-fn() { . $BOLT_DIR/types/npm.sh $@; }
+fn() { . $BOLT_DIR/types/npm.sh $*; }
 
 @test "npm status: returns FAILED_PRECONDITION if not run as root" {
   skip_exec npm && skip_user

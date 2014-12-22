@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-fn() { . $BOLT_DIR/types/yum.sh $@; }
+fn() { . $BOLT_DIR/types/yum.sh $*; }
 
 @test "apt status: returns FAILED_PRECONDITION if not run as root" {
   skip_exec apt-get && skip_exec dpkg && skip_user

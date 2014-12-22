@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-fn() { . $BOLT_DIR/types/user.sh $@; }
+fn() { . $BOLT_DIR/types/user.sh $*; }
 
 @test "user status: returns MISSING if user is not present" {
   skip_root && skip_linux

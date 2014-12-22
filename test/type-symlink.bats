@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-fn() { . $BOLT_DIR/types/symlink.sh $@; }
+fn() { . $BOLT_DIR/types/symlink.sh $*; }
 
 setup () {
   mkdir -p $BATS_TMPDIR/symlink/{src,dst}

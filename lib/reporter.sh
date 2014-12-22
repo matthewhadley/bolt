@@ -6,7 +6,7 @@ reporter() {
     return
   fi
   echo ""
-  if [ $bolt_error_count -gt 0 ];then
+  if [ "$bolt_error_count" -gt 0 ];then
     echo -e "BOLT RUN ${RED}FAIL${DEF}"
   else
     if [[ $BOLT_OPERATION == "status" && $bolt_update_count -gt 0 ]];then

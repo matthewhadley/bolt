@@ -5,9 +5,9 @@ target=$2
 source=$3
 shift 3
 
-perms=$(arg perms $@)
-owner=$(arg owner $@)
-group=$(arg group $@)
+perms=$(arg perms "$*")
+owner=$(arg owner "$*")
+group=$(arg group "$*")
 
 case $action in
   desc)
@@ -15,16 +15,16 @@ case $action in
     echo "> file target source [arguments as per file type]"
     ;;
   *)
-    exec "curl" || return $STATUS_FAILED_PRECONDITION
+    exec "curl" || return "$STATUS_FAILED_PRECONDITION"
 
     # create a tmp file to put contents in
     TMPFILE=$(mktemp -t bolt-file.XXXXX)
 
     # fetch the file with curl on silent (-s) and return fail values (-f)
-    curl -sf $source > $TMPFILE
+    curl -sf "$source" > "$TMPFILE"
     if [ $? -gt 0 ]; then
       echo "failed to fetch $source"
-      return $STATUS_FAILED
+      return "$STATUS_FAILED"
     fi
 
     # rebuild arguments
@@ -40,6 +40,6 @@ case $action in
     fi
 
     # run file type assertion
-    . $BOLT_DIR/types/file.sh $action $target $TMPFILE $args
+    . "$BOLT_DIR/types/file.sh" "$action" "$target" "$TMPFILE" "$args"
     ;;
 esac

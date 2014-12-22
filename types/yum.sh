@@ -11,20 +11,20 @@ case $action in
     ;;
 
   status)
-    root || return $STATUS_FAILED_PRECONDITION
-    platform "Linux" || return $STATUS_UNSUPPORTED
-    exec "yum" || return $STATUS_FAILED_PRECONDITION
+    root || return "$STATUS_FAILED_PRECONDITION"
+    platform "Linux" || return "$STATUS_UNSUPPORTED"
+    exec "yum" || return "$STATUS_FAILED_PRECONDITION"
 
     echo "$(rpm -qa)" | grep "^$name"
-    [ "$?" -gt 0 ] && return $STATUS_MISSING
+    [ "$?" -gt 0 ] && return "$STATUS_MISSING"
 
     echo "$(sudo yum list updates)" | grep "^$name"
-    [ "$?" -eq 0 ] && return $STATUS_OUTDATED
-    return $STATUS_OK
+    [ "$?" -eq 0 ] && return "$STATUS_OUTDATED"
+    return "$STATUS_OK"
     ;;
 
   install|upgrade)
-    sudo yum -y install $name
+    sudo yum -y install "$name"
     ;;
 
   *) return 1 ;;

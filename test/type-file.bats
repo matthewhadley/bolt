@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-fn() { . $BOLT_DIR/types/file.sh $@; }
+fn() { . $BOLT_DIR/types/file.sh $*; }
 
 setup () {
   mkdir -p $BATS_TMPDIR/file/{src,dst}

@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-fn() { . $BOLT_DIR/types/group.sh $@; }
+fn() { . $BOLT_DIR/types/group.sh $*; }
 
 @test "group status: returns FAILED_PRECONDITION if not run as root" {
   skip_user

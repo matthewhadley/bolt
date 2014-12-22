@@ -14,13 +14,14 @@ BOLT_VERSION=$(cat "$BOLT_DIR/VERSION")
 BOLT_OPERATION=$1
 
 if [ "$BOLT_OPERATION" == "verbose" ];then
+  # shellcheck disable=SC2034
   BOLT_VERBOSE=1
   BOLT_OPERATION=$2
   shift
 fi
 
 for file in $BOLT_DIR/lib/*.sh; do
-  . $file
+  . "$file"
 done
 
 help() {
@@ -47,6 +48,7 @@ version() {
   echo "bolt $BOLT_VERSION"
 }
 
+# shellcheck disable=SC2086,SC2048,SC2046,SC1010
 case $BOLT_OPERATION in
   status|satisfy)
     if [ -f "$2" ];then
@@ -56,8 +58,8 @@ case $BOLT_OPERATION in
       exit 1
     fi
     ;;
-  do) BOLT_OPERATION="satisfy"; shift; ok $@; echo -e "\n";;
-  check) BOLT_OPERATION="status"; shift; ok $@; echo -e "\n";;
+  do) BOLT_OPERATION="satisfy"; shift; ok $*; echo -e "\n";;
+  check) BOLT_OPERATION="status"; shift; ok $*; echo -e "\n";;
   # generate a list of types for tab autocompletion
   list)
     list=""

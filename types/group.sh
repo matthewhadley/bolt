@@ -10,15 +10,15 @@ case $action in
     echo "> group admin"
     ;;
   status)
-    root || return $STATUS_FAILED_PRECONDITION
-    exec "groupadd" || return $STATUS_FAILED_PRECONDITION
+    root || return "$STATUS_FAILED_PRECONDITION"
+    exec "groupadd" || return "$STATUS_FAILED_PRECONDITION"
 
-    cat /etc/group | grep -E "^$group:"
-    [ "$?" -gt 0 ] && return $STATUS_MISSING
-    return $STATUS_OK
+    grep -E "^$group:" < /etc/group
+    [ "$?" -gt 0 ] && return "$STATUS_MISSING"
+    return "$STATUS_OK"
     ;;
 
-  install) groupadd $group ;;
+  install) groupadd "$group" ;;
 
   *) return 1 ;;
 esac

@@ -7,38 +7,38 @@ action=$1
 handle=$2
 shift 2
 
-shell=$(arg shell $@)
-groups=$(arg groups $@)
+shell=$(arg shell "$*")
+groups=$(arg groups "$*")
 
 user_get () {
-  row=$(cat /etc/passwd | grep -E "^$1:")
+  row=$(grep -E "^$1:" < /etc/passwd)
   stat=$?
-  echo $row
+  echo "$row"
   return $stat
 }
 
 user_shell () {
   current_shell=$(echo "$1" | cut -d: -f 7)
-  if [ "$current_shell" != $2 ]; then
-    echo $current_shell
+  if [ "$current_shell" != "$2" ]; then
+    echo "$current_shell"
     return 1
   fi
   return 0
 }
 
 user_groups () {
-  current_groups=$(groups $1)
+  current_groups=$(groups "$1")
   case $platform in
     Linux) current_groups=$(echo "$current_groups" | cut -d: -f 2) ;;
   esac
   missing_groups=
-  expected_groups=$(IFS=','; echo $2)
+  expected_groups=$(IFS=','; echo "$2")
 
   for group in $expected_groups; do
     echo "$current_groups" | grep -E "\b$group\b" > /dev/null
     if [ "$?" -gt 0 ]; then
       missing_groups=1
-      echo $group
+      echo "$group"
     fi
   done
 
@@ -55,13 +55,13 @@ case $action in
     ;;
 
   status)
-    exec "useradd" || return $STATUS_FAILED_PRECONDITION
+    exec "useradd" || return "$STATUS_FAILED_PRECONDITION"
 
-    row=$(user_get $handle)
-    [ "$?" -gt 0 ] && return $STATUS_MISSING
+    row=$(user_get "$handle")
+    [ "$?" -gt 0 ] && return "$STATUS_MISSING"
 
     if [ -n "$shell" ]; then
-      msg=$(user_shell "$row" $shell)
+      msg=$(user_shell "$row" "$shell")
       if [ "$?" -gt 0 ]; then
         echo "--shell: expected $shell; is $msg"
         mismatched=1
@@ -69,13 +69,13 @@ case $action in
     fi
 
     if [ -n "$groups" ]; then
-      msg=$(user_groups $handle $groups)
+      msg=$(user_groups "$handle" "$groups")
       if [ "$?" -gt 0 ]; then
-        echo "--groups: expected $groups; missing $(echo $msg)"
+        echo "--groups: expected $groups; missing $(echo "$msg")"
         mismatched=1
       fi
     fi
-    [ -n "$mismatched" ] && return $STATUS_MISMATCH
+    [ -n "$mismatched" ] && return "$STATUS_MISMATCH"
     return 0 ;;
 
   install)
@@ -83,22 +83,24 @@ case $action in
     [ -n "$shell" ] && args="$args --shell $shell"
     [ -n "$groups" ] && groups_list=(${groups//,/ }) && args="$args --groups $groups"
     # if adding a user and explicitly setting group as same name use -g flag
-    [[ -n "$groups_list" && "${groups_list[0]}" == "$handle" ]] && args="$args -g $handle"
+    [[ -n "${groups_list[0]}" && "${groups_list[0]}" == "$handle" ]] && args="$args -g $handle"
     # if adding a user and an existing group has with the same name exists, use -g flag
     match "$(cat /etc/group)" "^$handle"
     handle_matches_group=$?
     [[ -n "$groups" && $handle_matches_group = 0 ]] && args="$args -g $handle"
+    # shellcheck disable=SC2086
     useradd $args $handle
     ;;
 
   upgrade)
-    if ! user_shell $(user_get $handle) $shell ; then
-      chsh -s $shell $handle
+    if ! user_shell "$(user_get "$handle")" "$shell"; then
+      chsh -s "$shell" "$handle"
     fi
-    missing=$(user_groups $handle $groups)
+    missing=$(user_groups "$handle" "$groups")
     if [ "$?" -gt 0 ]; then
-      groups_to_create=$(IFS=','; echo $missing)
+      groups_to_create=$(IFS=','; echo "$missing")
       for group in $groups_to_create; do
+        # shellcheck disable=SC2086
         adduser $handle $group
       done
     fi

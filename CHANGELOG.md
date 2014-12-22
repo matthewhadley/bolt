@@ -1,3 +1,6 @@
+# 0.0.7
+- apply shellcheck
+
 # 0.0.6
 - cross-system tmp file creation (used by fetch type)
 

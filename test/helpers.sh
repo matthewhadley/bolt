@@ -1,7 +1,7 @@
 BOLT_DIR=$(dirname $BATS_TEST_DIRNAME)
 
 for file in $BOLT_DIR/lib/*.sh; do
-  . $file
+  . "$file"
 done
 
 # override BATS default TMPDIR for consistency when running tests as root
@@ -23,12 +23,12 @@ skip_user() {
 }
 
 skip_linux() {
-  [ $platform != "Linux" ] && skip "requires Linux"
+  [ "$platform" != "Linux" ] && skip "requires Linux"
   return 0
 }
 
 skip_exec() {
-  exec $1
+  exec "$1"
   [ $? -ne 0 ] && skip "requires $1"
   return 0
 }

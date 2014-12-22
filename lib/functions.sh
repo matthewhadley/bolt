@@ -10,16 +10,16 @@ match () {
 arg() {
   local key=$1
   shift
-  local args=$@
+  local args=$*
 
-  local kvp=$(echo $args | grep -o "\--$key \S*")
+  local kvp=$(echo "$args" | grep -o "\--$key \S*")
   echo "${kvp:${#key}+3}" | sed 's/ *$//'
 }
 
 # print ouput over same line
 print() {
   [ -z "$bork_print_buffer" ] && let bork_print_buffer=0
-  local line=$@
+  local line=$*
   local let i=0
   local pad=
   while [ $i -lt $bork_print_buffer ];

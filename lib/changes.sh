@@ -30,7 +30,7 @@ bolt_did_error () { [ "$bolt_did_error" -gt 0 ] && return 0 || return 1; }
 bolt_changes_done () {
   action=$1
   status=$2
-  [ -z $status ] && status=0
+  [ -z "$status" ] && status=0
 
   let bolt_operations_count=bolt_operations_count+1
   if [ "$status" -gt 0 ]; then

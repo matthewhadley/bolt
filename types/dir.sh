@@ -16,13 +16,13 @@ case $action in
     ;;
 
   status)
-    [ ! -e $dir ] && return $STATUS_MISSING
-    [ -d $dir ] && return $STATUS_OK
+    [ ! -e "$dir" ] && return "$STATUS_MISSING"
+    [ -d "$dir" ] && return "$STATUS_OK"
     echo "target exists as non-directory"
-    return $STATUS_MISMATCH
+    return "$STATUS_MISMATCH"
     ;;
 
-  install) mkdir -p $dir;;
+  install) mkdir -p "$dir";;
 
   *) return 1 ;;
 esac

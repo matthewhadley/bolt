@@ -2,7 +2,7 @@
 
 . test/helpers.sh
 
-fn() { . $BOLT_DIR/types/fetch.sh $@; }
+fn() { . $BOLT_DIR/types/fetch.sh $*; }
 
 setup () {
   mkdir -p $BATS_TMPDIR/fetch
