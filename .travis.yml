@@ -6,4 +6,4 @@ before_install:
   - tar -xvf /tmp/bats.tar.gz
   - export PATH=$PATH:$PWD/bats-0.4.0/bin/
   - bash --version
-script: "shellcheck {lib/*.sh,types/*.sh,bin/bolt} -e 2148,2005,2116 && bats --tap test"
+script: "shellcheck {lib/*.sh,types/*.sh,bin/bolt} --exclude=2148,2005,2116 && bats --tap test"
