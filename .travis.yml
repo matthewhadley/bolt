@@ -1,7 +1,8 @@
 language: bash
 before_install:
+  - apt-get install shellcheck
   - wget https://github.com/sstephenson/bats/archive/v0.4.0.tar.gz -O /tmp/bats.tar.gz
   - tar -xvf /tmp/bats.tar.gz
   - export PATH=$PATH:$PWD/bats-0.4.0/bin/
   - bash --version
-script: bats --tap test
+script: shellcheck {lib/*.sh,types/*.sh,bin/bolt} -e 2148,2005,2116 && bats --tap test
