@@ -1,3 +1,6 @@
+# 0.0.8
+- configure shellcheck to run in build
+
 # 0.0.7
 - apply shellcheck
 

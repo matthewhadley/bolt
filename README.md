@@ -85,6 +85,8 @@ assert package installed via yum on CentOS or RedHat
 
 Source `completion.sh` to get intelligent autocomplete of bolt commands
 
+
 ## Contributing
 
-shellcheck {lib/*.sh,types/*.sh,bin/bolt} -e 2148,2005,2116
+Bolt builds use [bats](https://github.com/sstephenson/bats) for running tests and
+[shellcheck](https://github.com/koalaman/shellcheck) for linting bash.
