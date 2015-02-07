@@ -86,6 +86,24 @@ assert package installed via yum on CentOS or RedHat
 Source `completion.sh` to get intelligent autocomplete of bolt commands
 
 
+## Installing
+
+Either clone the bolt repo and make sure `bolt/bin/bolt` is in your `$PATH` or you
+could pull down and extract a release tar:
+
+```
+#!/bin/bash
+
+BOLT_VERSION="0.0.8"
+
+curl -Ls https://github.com/diffsky/bolt/archive/0.0.8.tar.gz > bolt-${BOLT_VERSION}.tar.gz
+tar xvzf bolt-${BOLT_VERSION}.tar.gz
+mv bolt-${BOLT_VERSION} /usr/local/lib/bolt
+ln -s /usr/local/lib/bolt/bin/bolt /usr/local/bin/bolt
+
+```
+
+
 ## Contributing
 
 Bolt builds use [bats](https://github.com/sstephenson/bats) for running tests and
