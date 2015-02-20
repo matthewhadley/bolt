@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "CentOS-base"
+  config.vm.box = "CentOS7vb"
 
   # ssh settings
   config.ssh.forward_agent = true
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
   # config.vm.network :forwarded_port, guest: 22, host: 2225, id: "ssh", auto_correct: true
 
   # hostname
-  config.vm.hostname = "CentOS-base.vagrant"
+  config.vm.hostname = "CentOS7vb.vagrant"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
