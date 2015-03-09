@@ -30,6 +30,17 @@ fn() { . $BOLT_DIR/types/user.sh $*; }
   userdel -r boltusertest
 }
 
+@test "user install: creates the user in required multiple groups" {
+  skip_root && skip_linux
+  run fn install boltusertest --groups wheel
+  [ $status -eq $STATUS_OK ]
+  run id -u boltusertest
+  [ $status -ne $STATUS_FAILED ]
+  run groups boltusertest
+  [ "${lines[0]}" = "boltusertest : boltusertest wheel" ]
+  userdel -r boltusertest
+}
+
 @test "user install: creates the user in required groups and sets primary group automatically as required" {
   skip_root && skip_linux
   groupadd boltusertest

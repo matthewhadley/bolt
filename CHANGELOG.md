@@ -1,3 +1,6 @@
+# 0.0.9
+- fix testing for existing groups in user type
+
 # 0.0.8
 - configure shellcheck to run in build
 

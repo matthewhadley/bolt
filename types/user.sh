@@ -32,8 +32,10 @@ user_groups () {
     Linux) current_groups=$(echo "$current_groups" | cut -d: -f 2) ;;
   esac
   missing_groups=
-  expected_groups=$(IFS=','; echo "$2")
-
+  #don't quote "$2" so that IFS splits it
+  # shellcheck disable=SC2086
+  expected_groups=$(IFS=','; echo $2)
+  echo "BBB $2 $expected_groups"
   for group in $expected_groups; do
     echo "$current_groups" | grep -E "\b$group\b" > /dev/null
     if [ "$?" -gt 0 ]; then
