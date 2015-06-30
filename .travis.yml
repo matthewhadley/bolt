@@ -6,4 +6,4 @@ before_install:
   - tar -xvf /tmp/bats.tar.gz
   - export PATH=$PATH:$PWD/bats-0.4.0/bin/
   - bash --version
-script: test.sh
+script: ./test.sh
