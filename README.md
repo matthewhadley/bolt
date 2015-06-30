@@ -33,6 +33,10 @@ Currently supported types are:
 assert package installed via apt-get on Debian or Ubuntu linux
 > apt package
 
+* brew
+assert package installed via homebrew on OSX
+> brew package
+
 * dir
 assert presence of a directory
 > dir /tmp/foo

@@ -1,3 +1,6 @@
+# 0.1.0
+- add support for homebrew
+
 # 0.0.9
 - fix testing for existing groups in user type
 

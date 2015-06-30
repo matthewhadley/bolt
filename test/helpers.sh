@@ -27,6 +27,11 @@ skip_linux() {
   return 0
 }
 
+skip_darwin() {
+  [ "$platform" != "Darwin" ] && skip "requires OSX"
+  return 0
+}
+
 skip_exec() {
   exec "$1"
   [ $? -ne 0 ] && skip "requires $1"
