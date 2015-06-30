@@ -98,9 +98,10 @@ could pull down and extract a release tar:
 ```
 #!/bin/bash
 
-BOLT_VERSION="0.0.8"
+# use latest bolt version
+BOLT_VERSION=$(curl -Ls https://raw.githubusercontent.com/diffsky/bolt/master/VERSION)
 
-curl -Ls https://github.com/diffsky/bolt/archive/0.0.8.tar.gz > bolt-${BOLT_VERSION}.tar.gz
+curl -Ls https://github.com/diffsky/bolt/archive/${BOLT_VERSION}.tar.gz > bolt-${BOLT_VERSION}.tar.gz
 tar xvzf bolt-${BOLT_VERSION}.tar.gz
 mv bolt-${BOLT_VERSION} /usr/local/lib/bolt
 ln -s /usr/local/lib/bolt/bin/bolt /usr/local/bin/bolt
