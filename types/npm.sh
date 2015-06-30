@@ -1,8 +1,7 @@
 # modified from original version at https://github.com/mattly/bork
 
-# TODO
-# status - check version outdated status
-# --version - support for status, install, update
+# TODO --status - check version outdated status
+# TODO --version - support for status, install, update
 
 action=$1
 pkgname=$2

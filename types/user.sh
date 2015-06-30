@@ -1,7 +1,6 @@
 # modified from original version at https://github.com/mattly/bork
 
-# TODO
-# - need to check --groups to make sure they exist
+# TODO need to check --groups to make sure they exist
 
 action=$1
 handle=$2

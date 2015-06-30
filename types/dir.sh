@@ -1,9 +1,8 @@
 # modified from original version at https://github.com/mattly/bork
 
-# TODO
-# - add --perms
-# - add --owner
-# - add --group - how will this work for created newly nested dirs?
+# TODO add --perms
+# TODO add --owner
+# TODO add --group - how will this work for created newly nested dirs?
 
 action=$1
 dir=$2
