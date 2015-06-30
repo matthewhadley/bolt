@@ -17,17 +17,17 @@ case $action in
     echo "$(brew list)" | grep "^$name"
     [ "$?" -gt 0 ] && return "$STATUS_MISSING"
 
-    brew outdated $name
+    brew outdated "$name"
     [ "$?" -ne 0 ] && return "$STATUS_OUTDATED"
     return "$STATUS_OK"
     ;;
 
   install)
-    brew install $name
+    brew install "$name"
     ;;
 
   upgrade)
-    brew upgrade $name
+    brew upgrade "$name"
     ;;
 
   *) return 1 ;;
