@@ -19,15 +19,15 @@ arg() {
 
 # print ouput over same line
 print() {
-  [ -z "$bork_print_buffer" ] && let bork_print_buffer=0
+  [ -z "$bolt_print_buffer" ] && let bolt_print_buffer=0
   local line=$*
   local let i=0
   local pad=
-  while [ $i -lt $bork_print_buffer ];
+  while [ $i -lt $bolt_print_buffer ];
   do
     pad="${pad} "
     let i=i+1
   done
-  let bork_print_buffer=${#line}
+  let bolt_print_buffer=${#line}
   echo -ne "$pad\r$line\r"
 }
