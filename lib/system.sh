@@ -45,7 +45,7 @@ owner_exists() {
     id -u "$1" 2> /dev/null
     if [ "$?" -gt 0 ]; then
       echo "unknown owner: $1"
-      return $STATUS_FAILED_PRECONDITION
+      return "$STATUS_FAILED_PRECONDITION"
     fi
   fi
 }
@@ -55,7 +55,7 @@ group_exists() {
     grep -E "^$1:" < /etc/group > /dev/null
     if [ "$?" -gt 0 ]; then
       echo "unknown group: $1"
-      return $STATUS_FAILED_PRECONDITION
+      return "$STATUS_FAILED_PRECONDITION"
     fi
   fi
 }
@@ -67,7 +67,7 @@ check_perms() {
     if [ "$existing_perms" != "$2" ]; then
       echo "expected permissions: $2"
       echo "received permissions: $existing_perms"
-      return $STATUS_CONFLICT
+      return "$STATUS_CONFLICT"
     fi
   fi
 }
@@ -80,7 +80,7 @@ check_owner() {
     if [ "$existing_user" != "$2" ]; then
       echo "expected owner: $2"
       echo "received owner: $existing_user"
-      return $STATUS_CONFLICT
+      return "$STATUS_CONFLICT"
     fi
   fi
 }
@@ -94,7 +94,7 @@ check_group() {
     if [ "$existing_group" != "$2" ]; then
       echo "expected group: $2"
       echo "received group: $existing_group"
-      return $STATUS_CONFLICT
+      return "$STATUS_CONFLICT"
     fi
   fi
 }
