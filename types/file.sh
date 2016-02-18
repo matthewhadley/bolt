@@ -20,30 +20,17 @@ case $action in
     ;;
 
   status)
-
     # check source file exists
     if [ ! -f "$source" ]; then
       echo "source file doesn't exist: $source"
       return "$STATUS_FAILED_PRECONDITION"
     fi
 
-    # check requested owner exists
-    if [ -n "$owner" ]; then
-      id -u "$owner"
-      if [ "$?" -gt 0 ]; then
-        echo "unknown owner: $owner"
-        return "$STATUS_FAILED_PRECONDITION"
-      fi
-    fi
+    # check any requested owner exists
+    owner_exists "$owner" || return $?
 
-    # check requested group exists
-    if [ -n "$group" ]; then
-      grep -E "^$group:" < /etc/group
-      if [ "$?" -gt 0 ]; then
-        echo "unknown group: $group"
-        return "$STATUS_FAILED_PRECONDITION"
-      fi
-    fi
+    # check any requested group exists
+    group_exists "$group" || return $?
 
     # check target does not exist
     if [ ! -f "$target" ]; then
@@ -61,39 +48,14 @@ case $action in
       return "$STATUS_OUTDATED"
     fi
 
-    # check for conflicts with existing file
-    conflict=
     # check existing permissions
-    if [ -n "$perms" ]; then
-      existing_perms=$(perms_cmd "$target")
-      if [ "$existing_perms" != "$perms" ]; then
-        echo "expected permissions: $perms"
-        echo "received permissions: $existing_perms"
-        conflict=1
-      fi
-    fi
-    # check existing owner
-    if [ -n "$owner" ]; then
-      root || return "$STATUS_FAILED_PRECONDITION"
-      existing_user=$(ls -l "$target" | awk '{print $3}')
-      if [ "$existing_user" != "$owner" ]; then
-        echo "expected owner: $owner"
-        echo "received owner: $existing_user"
-        conflict=1
-      fi
-    fi
-    # check existing group
-    if [ -n "$group" ]; then
-      root || return "$STATUS_FAILED_PRECONDITION"
-      existing_group=$(ls -l "$target" | awk '{print $4}')
-      if [ "$existing_group" != "$group" ]; then
-        echo "expected group: $group"
-        echo "received group: $existing_group"
-        conflict=1
-      fi
-    fi
+    check_perms "$target" "$perms" || return $?
 
-    [ -n "$conflict" ] && return "$STATUS_CONFLICT"
+    # check existing owner
+    check_owner "$target" "$owner" || return $?
+
+    # check existing group
+    check_group "$target" "$group" || return $?
 
     return "$STATUS_OK"
     ;;
