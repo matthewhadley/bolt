@@ -75,7 +75,7 @@ teardown () {
   [ $EUID -ne 0 ] && skip "test must be run with root priveleges"
   run fn install $BATS_TMPDIR/file/dst/owner $BATS_TMPDIR/file/src/foo --owner nobody
   [ $status -eq $STATUS_OK ]
-  owner=$(ls -l $BATS_TMPDIR/file/dst/owner | awk '{print $3}')
+  owner=$(ls -ld $BATS_TMPDIR/file/dst/owner | awk '{print $3}')
   [ $owner = "nobody" ]
 }
 
@@ -83,6 +83,6 @@ teardown () {
   [ $EUID -ne 0 ] && skip "test must be run with root priveleges"
   run fn install $BATS_TMPDIR/file/dst/group $BATS_TMPDIR/file/src/foo --group nobody
   [ $status -eq $STATUS_OK ]
-  group=$(ls -l $BATS_TMPDIR/file/dst/group | awk '{print $4}')
+  group=$(ls -ld $BATS_TMPDIR/file/dst/group | awk '{print $4}')
   [ $group = "nobody" ]
 }

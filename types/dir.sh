@@ -1,12 +1,12 @@
 # modified from original version at https://github.com/mattly/bork
 
-# TODO add --perms
-# TODO add --owner
-# TODO add --group - how will this work for created newly nested dirs?
-
 action=$1
-dir=$2
+target=$2
 shift
+
+perms=$(arg perms "$*")
+owner=$(arg owner "$*")
+group=$(arg group "$*")
 
 case $action in
   desc)
@@ -15,13 +15,34 @@ case $action in
     ;;
 
   status)
-    [ ! -e "$dir" ] && return "$STATUS_MISSING"
-    [ -d "$dir" ] && return "$STATUS_OK"
+    # check any requested owner exists
+    owner_exists "$owner" || return $?
+
+    # check any requested group exists
+    group_exists "$group" || return $?
+
+    # check existing permissions
+    check_perms "$target" "$perms" || return $?
+
+    # check existing owner
+    check_owner "$target" "$owner" || return $?
+
+    # check existing group
+    check_group "$target" "$group" || return $?
+
+    [ ! -e "$target" ] && return "$STATUS_MISSING"
+    [ -d "$target" ] && return "$STATUS_OK"
     echo "target exists as non-directory"
     return "$STATUS_MISMATCH"
     ;;
 
-  install) mkdir -p "$dir";;
+  install)
+    mkdir -p "$target"
+    [ -n "$owner" ] && chown "$owner" "$target"
+    [ -n "$group" ] && chgrp "$group" "$target"
+    [ -n "$perms" ] && chmod "$perms" "$target"
+    return 0;
+    ;;
 
   *) return 1 ;;
 esac
