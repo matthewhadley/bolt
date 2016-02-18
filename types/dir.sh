@@ -11,7 +11,10 @@ group=$(arg group "$*")
 case $action in
   desc)
     echo "assert presence of a directory"
-    echo "> dir /tmp/foo"
+    echo "> dir /tmp/foo [arguments]"
+    echo "--perms 555       permissions for the directory"
+    echo "--owner name      owner name of the directory"
+    echo "--group name      group name of the directory"
     ;;
 
   status)

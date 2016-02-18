@@ -39,7 +39,10 @@ assert package installed via homebrew on OSX
 
 * dir
 assert presence of a directory
-> dir /tmp/foo
+> dir /tmp/foo [arguments]
+--perms 555       permissions for the directory
+--owner name      owner name of the directory
+--group name      group name of the directory
 
 * fetch
 interface for file type, with file retrieved from remote filesystem via curl
@@ -52,15 +55,15 @@ assert presence, checksum, owner and permissions of a file
 --owner name      owner name of the file
 --group name      group name of the file
 
-* github
-interface for git type, using github user/repo combos
-> github diffsky/bolt [arguments as per git type]
-
 * git
 assert presence and state of a git repo
 > git git@github.com:diffsky/bolt [arguments]
 --dir    target   destination dir
 --branch foo      git branch (defaults to master)
+
+* github
+interface for git type, using github user/repo combos
+> github diffsky/bolt [arguments as per git type]
 
 * group
 assert presence of a unix group
