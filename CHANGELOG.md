@@ -1,3 +1,7 @@
+# 0.2.0
+- add support for setting group, owner, perms for dir types
+- disable spinner for npm installs
+
 # 0.1.0
 - add support for homebrew
 
