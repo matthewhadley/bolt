@@ -16,13 +16,13 @@ case $action in
   status)
     root || return "$STATUS_FAILED_PRECONDITION"
     exec "npm" || return "$STATUS_FAILED_PRECONDITION"
-    pkgs=$(npm ls -g --depth 0 --parseable)
+    pkgs=$(npm ls -g --depth 0 --parseable 2>/dev/null)
     match "$pkgs" "\/$pkgname"
     [ "$?" -ne 0 ] && return "$STATUS_MISSING"
     return "$STATUS_OK"
     ;;
 
-  install) npm -g install "$pkgname";;
+  install) npm --no-spin -g install "$pkgname";;
 
   *) return 1 ;;
 esac
