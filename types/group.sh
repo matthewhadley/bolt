@@ -10,7 +10,7 @@ case $action in
     echo "> group admin"
     ;;
   status)
-    root || return "$STATUS_FAILED_PRECONDITION"
+    root || return "$STATUS_UNPRIVILEGED"
     exec "groupadd" || return "$STATUS_FAILED_PRECONDITION"
 
     grep -E "^$group:" < /etc/group

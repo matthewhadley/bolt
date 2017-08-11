@@ -21,4 +21,8 @@ reporter() {
   echo "   updates: $bolt_update_count"
   echo "(installs): $bolt_install_count"
   echo "(upgrades): $bolt_upgrade_count"
+
+  if [[ "$bolt_error_count" -gt 0 && "$BOLT_VERBOSE" != "1" ]];then
+    echo -e "\ntry running in verbose mode for more info"
+  fi
 }

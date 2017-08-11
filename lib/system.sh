@@ -75,7 +75,7 @@ check_perms() {
 # $target $owner
 check_owner() {
   if [ -n "$2" ]; then
-    root || return "$STATUS_FAILED_PRECONDITION"
+    root || return "$STATUS_UNPRIVILEGED"
     local existing_user=$(ls -l "$1" | awk '{print $3}')
     if [ "$existing_user" != "$2" ]; then
       echo "expected owner: $2"
@@ -89,7 +89,7 @@ check_owner() {
 check_group() {
   # check existing group
   if [ -n "$2" ]; then
-    root || return "$STATUS_FAILED_PRECONDITION"
+    root || return "$STATUS_UNPRIVILEGED"
     existing_group=$(ls -l "$1" | awk '{print $4}')
     if [ "$existing_group" != "$2" ]; then
       echo "expected group: $2"

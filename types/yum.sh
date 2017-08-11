@@ -11,7 +11,7 @@ case $action in
     ;;
 
   status)
-    root || return "$STATUS_FAILED_PRECONDITION"
+    root || return "$STATUS_UNPRIVILEGED"
     platform "Linux" || return "$STATUS_UNSUPPORTED"
     exec "yum" || return "$STATUS_FAILED_PRECONDITION"
 

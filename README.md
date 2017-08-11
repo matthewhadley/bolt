@@ -111,6 +111,10 @@ ln -s /usr/local/lib/bolt/bin/bolt /usr/local/bin/bolt
 
 ```
 
+## Testing
+
+Run `./test.sh`
+
 
 ## Contributing
 

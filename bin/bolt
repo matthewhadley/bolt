@@ -12,6 +12,8 @@ BOLT_DIR="$( cd -P "$( dirname "$SOURCE" )/.." && pwd )"
 BOLT_VERSION=$(cat "$BOLT_DIR/VERSION")
 
 BOLT_OPERATION=$1
+# used to track multiple operations, helps to know when to show verbose output hint
+BOLT_MULTI_OPERATION=0
 
 if [ "$BOLT_OPERATION" == "verbose" ];then
   # shellcheck disable=SC2034
@@ -51,6 +53,8 @@ version() {
 # shellcheck disable=SC2086,SC2048,SC2046,SC1010
 case $BOLT_OPERATION in
   status|satisfy)
+    BOLT_MULTI_OPERATION=1
+    [ "$BOLT_OPERATION" == "satisfy" ] && BOLT_VERBOSE=1
     if [ -f "$2" ];then
       source "$2"; reporter
     else
@@ -58,7 +62,7 @@ case $BOLT_OPERATION in
       exit 1
     fi
     ;;
-  do) BOLT_OPERATION="satisfy"; shift; ok $*; echo -e "\n";;
+  do) BOLT_OPERATION="satisfy"; BOLT_VERBOSE=1; shift; ok $*; echo -e "\n";;
   check) BOLT_OPERATION="status"; shift; ok $*; echo -e "\n";;
   # generate a list of types for tab autocompletion
   list)

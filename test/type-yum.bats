@@ -4,10 +4,10 @@
 
 fn() { . $BOLT_DIR/types/yum.sh $*; }
 
-@test "yum status: returns FAILED_PRECONDITION if not run as root" {
+@test "yum status: returns STATUS_UNPRIVILEGED if not run as root" {
   skip_exec yum && skip_user
   run fn status doesnotexist
-  [ $status -eq $STATUS_FAILED_PRECONDITION ]
+  [ $status -eq $STATUS_UNPRIVILEGED ]
 }
 
 @test "yum status: returns MISSING if package is not present" {

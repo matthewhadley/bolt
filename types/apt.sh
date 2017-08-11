@@ -11,8 +11,8 @@ case $action in
     ;;
 
   status)
-    root || return "$STATUS_FAILED_PRECONDITION"
-    platform "Linux" || return "$STATUS_UNSUPPORTED_PLATFORM"
+    root || return "$STATUS_UNPRIVILEGED"
+    platform "Linux" || return "$STATUS_UNSUPPORTED"
     exec "apt-get" || return "$STATUS_FAILED_PRECONDITION"
     exec "dpkg" || return "$STATUS_FAILED_PRECONDITION"
 

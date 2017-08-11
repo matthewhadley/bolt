@@ -14,7 +14,7 @@ case $action in
     ;;
 
   status)
-    root || return "$STATUS_FAILED_PRECONDITION"
+    root || return "$STATUS_UNPRIVILEGED"
     exec "npm" || return "$STATUS_FAILED_PRECONDITION"
     pkgs=$(npm ls -g --depth 0 --parseable 2>/dev/null)
     match "$pkgs" "\/$pkgname"

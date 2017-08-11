@@ -17,6 +17,8 @@ STATUS_MISMATCH=5
 STATUS_FAILED_PRECONDITION=6
 ## type not supported on current platform
 STATUS_UNSUPPORTED=7
+## must be root
+STATUS_UNPRIVILEGED=8
 
 # colors
 DEF='\033[00m'
@@ -35,6 +37,7 @@ bolt_status () {
     $STATUS_MISMATCH) echo -e "${RED}mismatch${DEF}" ;;
     $STATUS_FAILED_PRECONDITION) echo -e "${RED}error (failed precondition)${DEF}" ;;
     $STATUS_UNSUPPORTED) echo -e "${RED}error (unsupported platform)${DEF}" ;;
+    $STATUS_UNPRIVILEGED) echo -e "${RED}error (must be root)${DEF}" ;;
     *) echo -e "${RED}unknown status: $1${DEF}" ;;
   esac
 }

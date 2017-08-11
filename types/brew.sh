@@ -11,7 +11,7 @@ case $action in
     ;;
 
   status)
-    platform "Darwin" || return "$STATUS_UNSUPPORTED_PLATFORM"
+    platform "Darwin" || return "$STATUS_UNSUPPORTED"
     exec "ruby" || return "$STATUS_FAILED_PRECONDITION"
 
     echo "$(brew list)" | grep "^$name"

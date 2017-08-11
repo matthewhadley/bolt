@@ -34,7 +34,7 @@ bolt_changes_done () {
 
   let bolt_operations_count=bolt_operations_count+1
   if [ "$status" -gt 0 ]; then
-    [ "$BOLT_OPERATION" = "satisfy" ] && bolt_did_error=1
+    bolt_did_error=1
     let bolt_error_count=bolt_error_count+1
   elif [ "$action" = "install" ]; then
     [ "$BOLT_OPERATION" = "satisfy" ] && bolt_did_install=1
