@@ -35,13 +35,14 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "./host", "/client"
 
-  # add bolt symlinks
+  # add bolt mounts
   config.vm.synced_folder "~/dev/bash/bolt", "/usr/local/lib/bolt"
   config.vm.synced_folder "~/dev/bolted", "/etc/bolt"
 
-  # add bats symlink
-  config.vm.synced_folder "~/dev/bash/bats", "/usr/local/lib/bats"
+  # add testing mount
+  config.vm.synced_folder "/usr/local/Cellar/bats/0.4.0", "/usr/local/lib/bats"
 
+  # add symlinks
   config.vm.provision "shell", inline: "ln -s /usr/local/lib/bolt/bin/bolt /usr/local/bin/bolt"
   config.vm.provision "shell", inline: "ln -s /usr/local/lib/bats/bin/bats /usr/local/bin/bats"
 
