@@ -62,8 +62,8 @@ case $BOLT_OPERATION in
       exit 1
     fi
     ;;
-  do) BOLT_OPERATION="satisfy"; BOLT_VERBOSE=1; shift; ok $*;;
-  check) BOLT_OPERATION="status"; shift; ok $*;;
+  do) BOLT_OPERATION="satisfy"; BOLT_VERBOSE=1; shift; ok $*; echo -e "\n";; # new line needed to clear print line
+  check) BOLT_OPERATION="status"; shift; ok $*; echo -e "\n";; # new line needed to clear print line
   # generate a list of types for tab autocompletion
   list)
     list=""
