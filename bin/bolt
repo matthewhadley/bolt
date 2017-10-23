@@ -50,6 +50,16 @@ version() {
   echo "bolt $BOLT_VERSION"
 }
 
+# be lenient about incorrectly running a one line assertion when wanting to
+# run bolt against a file (so no other arguments)
+# ie allow "bolt check somefile" instead of "bolt status somefile" if somefile exists
+if [[ -z $3 && -f "$2" ]];then
+  case $BOLT_OPERATION in
+    do)BOLT_OPERATION="satisfy";;
+    check)BOLT_OPERATION="status";;
+  esac
+fi
+
 # shellcheck disable=SC2086,SC2048,SC2046,SC1010
 case $BOLT_OPERATION in
   status|satisfy)
@@ -62,8 +72,19 @@ case $BOLT_OPERATION in
       exit 1
     fi
     ;;
-  do) BOLT_OPERATION="satisfy"; BOLT_VERBOSE=1; shift; ok $*; echo -e "\n";; # new line needed to clear print line
-  check) BOLT_OPERATION="status"; shift; ok $*; echo -e "\n";; # new line needed to clear print line
+  do)
+    BOLT_OPERATION="satisfy"
+    BOLT_VERBOSE=1
+    shift;ok $*;
+    # new line needed to clear print line
+    echo -e "\n"
+    ;;
+  check)
+    BOLT_OPERATION="status"
+    shift;ok $*
+    # new line needed to clear print line
+    echo -e "\n"
+    ;;
   # generate a list of types for tab autocompletion
   list)
     list=""
