@@ -10,6 +10,7 @@ dir=$(arg dir "$*")
 [ -z "$dir" ] && dir="$(basename "$url" .git)"
 branch=$(arg branch "$*")
 [ -z "$branch" ] && branch="master"
+depth=$(arg depth "$*")
 
 case $action in
   desc)
@@ -80,7 +81,13 @@ case $action in
 
   install)
     mkdir -p "$dir"
-    git clone "$url" "$dir"
+    [ -z "$branch" ]
+    if [ -z $depth ]; then
+      git clone "$url" "$dir"
+    else
+      git clone --depth $depth "$url" "$dir"
+    fi
+
     [ ! -d "$dir" ] && cd "$OWD" && return "$STATUS_FAILED"
     cd "$dir"
     git checkout "$branch" &>/dev/null
