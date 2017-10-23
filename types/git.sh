@@ -82,10 +82,10 @@ case $action in
   install)
     mkdir -p "$dir"
     [ -z "$branch" ]
-    if [ -z $depth ]; then
+    if [ -z "$depth" ]; then
       git clone "$url" "$dir"
     else
-      git clone --depth $depth "$url" "$dir"
+      git clone --depth "$depth" "$url" "$dir"
     fi
 
     [ ! -d "$dir" ] && cd "$OWD" && return "$STATUS_FAILED"

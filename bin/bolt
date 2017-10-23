@@ -55,7 +55,7 @@ version() {
 # ie allow "bolt check somefile" instead of "bolt status somefile" if somefile exists
 if [[ -z $3 && -f "$2" ]];then
   case $BOLT_OPERATION in
-    do)BOLT_OPERATION="satisfy";;
+    'do')BOLT_OPERATION="satisfy";;
     check)BOLT_OPERATION="status";;
   esac
 fi
