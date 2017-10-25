@@ -1,3 +1,24 @@
+# 0.5.2
+
+- fix perms check for directories
+
+# 0.5.1
+
+- shellcheck fixes
+
+# 0.5.0
+
+- allow lenient do/check usage
+- re-instate extra lines removed from bolt
+
+# 0.4.0
+
+- extra lines removed from bolt logging output
+
+# 0.3.0
+
+- new unprivileged state, consistent error checking method
+
 # 0.2.0
 - add support for setting group, owner, perms for dir types
 - disable spinner for npm installs
