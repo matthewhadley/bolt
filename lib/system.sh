@@ -76,7 +76,14 @@ check_perms() {
 check_owner() {
   if [ -n "$2" ]; then
     root || return "$STATUS_UNPRIVILEGED"
-    local existing_user=$(ls -l "$1" | awk '{print $3}')
+
+    local existing_user
+    if [[ -d $1 ]]; then
+      existing_user=$(ls -ld "$1" | awk '{print $3}')
+    elif [[ -f $1 ]]; then
+      existing_user=$(ls -l "$1" | awk '{print $3}')
+    fi
+
     if [ "$existing_user" != "$2" ]; then
       echo "expected owner: $2"
       echo "received owner: $existing_user"
@@ -90,7 +97,14 @@ check_group() {
   # check existing group
   if [ -n "$2" ]; then
     root || return "$STATUS_UNPRIVILEGED"
-    existing_group=$(ls -ld "$1" | awk '{print $4}')
+
+    local existing_group
+    if [[ -d $1 ]]; then
+      existing_group=$(ls -ld "$1" | awk '{print $4}')
+    elif [[ -f $1 ]]; then
+      existing_group=$(ls -l "$1" | awk '{print $4}')
+    fi
+
     if [ "$existing_group" != "$2" ]; then
       echo "expected group: $2"
       echo "received group: $existing_group"

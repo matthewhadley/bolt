@@ -1,5 +1,9 @@
 # 0.5.2
 
+- fix perms check for directories for owner and group
+
+# 0.5.2
+
 - fix perms check for directories
 
 # 0.5.1
