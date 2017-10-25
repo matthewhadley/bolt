@@ -90,7 +90,7 @@ check_group() {
   # check existing group
   if [ -n "$2" ]; then
     root || return "$STATUS_UNPRIVILEGED"
-    existing_group=$(ls -l "$1" | awk '{print $4}')
+    existing_group=$(ls -ld "$1" | awk '{print $4}')
     if [ "$existing_group" != "$2" ]; then
       echo "expected group: $2"
       echo "received group: $existing_group"

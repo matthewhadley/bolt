@@ -39,7 +39,7 @@ case $action in
     return "$STATUS_MISMATCH"
     ;;
 
-  install)
+  install|upgrade)
     mkdir -p "$target"
     [ -n "$owner" ] && chown "$owner" "$target"
     [ -n "$group" ] && chgrp "$group" "$target"
