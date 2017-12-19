@@ -1,7 +1,7 @@
 language: bash
 before_install:
-  - wget http://mirrors.kernel.org/ubuntu/pool/universe/s/shellcheck/shellcheck_0.3.4-3_amd64.deb
-  - sudo dpkg -i shellcheck_0.3.4-3_amd64.deb
+  - wget http://mirrors.kernel.org/ubuntu/pool/universe/s/shellcheck/shellcheck_0.4.6-1_amd64.deb
+  - sudo dpkg -i shellcheck_0.4.6-1_amd64.deb
   - wget https://github.com/sstephenson/bats/archive/v0.4.0.tar.gz -O /tmp/bats.tar.gz
   - tar -xvf /tmp/bats.tar.gz
   - export PATH=$PATH:$PWD/bats-0.4.0/bin/
