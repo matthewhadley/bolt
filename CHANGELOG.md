@@ -1,3 +1,7 @@
+# 0.5.4
+
+- fix for updating user with missing group
+
 # 0.5.3
 
 - fix perms check for directories for owner and group

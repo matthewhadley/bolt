@@ -3,7 +3,7 @@
 # TODO need to check --groups to make sure they exist
 
 action=$1
-handle=$2
+username=$2
 shift 2
 
 shell=$(arg shell "$*")
@@ -31,10 +31,9 @@ user_groups () {
     Linux) current_groups=$(echo "$current_groups" | cut -d: -f 2) ;;
   esac
   missing_groups=
-  #don't quote "$2" so that IFS splits it
+  # don't quote "$2" so that IFS splits it
   # shellcheck disable=SC2086
   expected_groups=$(IFS=','; echo $2)
-  echo "BBB $2 $expected_groups"
   for group in $expected_groups; do
     echo "$current_groups" | grep -E "\b$group\b" > /dev/null
     if [ "$?" -gt 0 ]; then
@@ -58,51 +57,54 @@ case $action in
   status)
     exec "useradd" || return "$STATUS_FAILED_PRECONDITION"
 
-    row=$(user_get "$handle")
+    row=$(user_get "$username")
     [ "$?" -gt 0 ] && return "$STATUS_MISSING"
 
     if [ -n "$shell" ]; then
       msg=$(user_shell "$row" "$shell")
       if [ "$?" -gt 0 ]; then
         echo "--shell: expected $shell; is $msg"
-        mismatched=1
+        missing=1
       fi
     fi
 
     if [ -n "$groups" ]; then
-      msg=$(user_groups "$handle" "$groups")
+      msg=$(user_groups "$username" "$groups")
       if [ "$?" -gt 0 ]; then
         echo "--groups: expected $groups; missing $(echo "$msg")"
-        mismatched=1
+        missing=1
       fi
     fi
-    [ -n "$mismatched" ] && return "$STATUS_MISMATCH"
+    [ -n "$missing" ] && return "$STATUS_OUTDATED"
     return 0 ;;
 
   install)
     args="-m"
     [ -n "$shell" ] && args="$args --shell $shell"
+    # shellcheck disable=SC2206
     [ -n "$groups" ] && groups_list=(${groups//,/ }) && args="$args --groups $groups"
     # if adding a user and explicitly setting group as same name use -g flag
-    [[ -n "${groups_list[0]}" && "${groups_list[0]}" == "$handle" ]] && args="$args -g $handle"
+    [[ -n "${groups_list[0]}" && "${groups_list[0]}" == "$username" ]] && args="$args -g $username"
     # if adding a user and an existing group has with the same name exists, use -g flag
-    match "$(cat /etc/group)" "^$handle"
+    match "$(cat /etc/group)" "^$username"
     handle_matches_group=$?
-    [[ -n "$groups" && $handle_matches_group = 0 ]] && args="$args -g $handle"
+    [[ -n "$groups" && $handle_matches_group = 0 ]] && args="$args -g $username"
     # shellcheck disable=SC2086
-    useradd $args $handle
+    useradd $args $username
     ;;
 
   upgrade)
-    if ! user_shell "$(user_get "$handle")" "$shell"; then
-      chsh -s "$shell" "$handle"
+    if [ -n "$shell" ];then
+      if ! user_shell "$(user_get "$username")" "$shell"; then
+        chsh -s "$shell" "$username"
+      fi
     fi
-    missing=$(user_groups "$handle" "$groups")
+    missing=$(user_groups "$username" "$groups")
     if [ "$?" -gt 0 ]; then
       groups_to_create=$(IFS=','; echo "$missing")
       for group in $groups_to_create; do
         # shellcheck disable=SC2086
-        adduser $handle $group
+        usermod -a -G $group $username
       done
     fi
     ;;
