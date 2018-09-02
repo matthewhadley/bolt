@@ -8,7 +8,7 @@ shift 2
 case $action in
   desc)
     echo "interface for git type, using github user/repo combos"
-    echo "> github diffsky/bolt [arguments as per git type]"
+    echo "> github matthewhadley/bolt [arguments as per git type]"
     ;;
   *) . "$BOLT_DIR/types/git.sh" "$action" "git@github.com:$(echo $repo).git" $*;;
 esac

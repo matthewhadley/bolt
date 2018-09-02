@@ -15,7 +15,7 @@ depth=$(arg depth "$*")
 case $action in
   desc)
     echo "assert presence and state of a git repo"
-    echo "> git git@github.com:diffsky/bolt [arguments]"
+    echo "> git git@github.com:matthewhadley/bolt [arguments]"
     echo "--dir    target   destination dir"
     echo "--branch foo      git branch (defaults to master)"
     ;;
