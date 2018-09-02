@@ -1,4 +1,4 @@
-# [![Bolt](https://raw.githubusercontent.com/diffsky/bolt/master/assets/bolt-64.png)](https://github.com/diffsky/bolt) Bolt [![](https://travis-ci.org/diffsky/bolt.svg)](https://travis-ci.org/diffsky/bolt)
+# [![Bolt](https://raw.githubusercontent.com/matthewhadley/bolt/master/assets/bolt-64.png)](https://github.com/matthewhadley/bolt) Bolt [![](https://travis-ci.org/matthewhadley/bolt.svg)](https://travis-ci.org/matthewhadley/bolt)
 
 Bolt is a bash-based DSL for making assertions about the state of a system.
 
@@ -13,7 +13,7 @@ A Bolt config is a bash script that bolt runs. A basic config might look like:
 
 ```
 ok npm gulp
-ok github diffsky/scratch
+ok github matthewhadley/scratch
 ok yum nano
 ```
 
@@ -57,13 +57,13 @@ assert presence, checksum, owner and permissions of a file
 
 * git
 assert presence and state of a git repo
-> git git@github.com:diffsky/bolt [arguments]
+> git git@github.com:matthewhadley/bolt [arguments]
 --dir    target   destination dir
 --branch foo      git branch (defaults to master)
 
 * github
 interface for git type, using github user/repo combos
-> github diffsky/bolt [arguments as per git type]
+> github matthewhadley/bolt [arguments as per git type]
 
 * group
 assert presence of a unix group
@@ -102,9 +102,9 @@ could pull down and extract a release tar:
 #!/bin/bash
 
 # use latest bolt version
-BOLT_VERSION=$(curl -Ls https://raw.githubusercontent.com/diffsky/bolt/master/VERSION)
+BOLT_VERSION=$(curl -Ls https://raw.githubusercontent.com/matthewhadley/bolt/master/VERSION)
 
-curl -Ls https://github.com/diffsky/bolt/archive/${BOLT_VERSION}.tar.gz > bolt-${BOLT_VERSION}.tar.gz
+curl -Ls https://github.com/matthewhadley/bolt/archive/${BOLT_VERSION}.tar.gz > bolt-${BOLT_VERSION}.tar.gz
 tar xvzf bolt-${BOLT_VERSION}.tar.gz
 mv bolt-${BOLT_VERSION} /usr/local/lib/bolt
 ln -s /usr/local/lib/bolt/bin/bolt /usr/local/bin/bolt
