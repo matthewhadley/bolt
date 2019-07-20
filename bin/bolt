@@ -33,7 +33,7 @@ help() {
   echo "list    - list assertion types (for bash autocomplete)"
   echo "status  - check state of a bolt config"
   echo "              example: bolt status config.sh"
-  echo "satsify - attempt to satisfy assertions in a bolt config"
+  echo "satisfy - attempt to satisfy assertions in a bolt config"
   echo "              example: bolt satisfy config.sh"
   echo "check   - check state of a single bolt command"
   echo "              example: bolt check dir foo"
