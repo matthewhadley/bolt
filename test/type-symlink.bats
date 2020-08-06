@@ -29,11 +29,6 @@ teardown () {
   [ $status -eq $STATUS_CONFLICT ]
 }
 
-@test "symlink status: returns MISSING if sylimk is not present" {
-  run fn status $BATS_TMPDIR/symlink/dst/foo $BATS_TMPDIR/symlink/src/foo
-  [ $status -eq $STATUS_MISSING ]
-}
-
 @test "symlink install: creates a symlink from source to target" {
   run fn install $BATS_TMPDIR/symlink/dst/foo $BATS_TMPDIR/symlink/src/foo
   [ $status -eq $STATUS_OK ]
