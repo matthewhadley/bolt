@@ -7,8 +7,8 @@ done
 # override BATS default TMPDIR for consistency when running tests as root
 BATS_TMPDIR=$(mktemp -d -t bolt-dir.XXXXX)
 
-skip_travis() {
-  [ "$TRAVIS_JOB_ID" != "" ] && skip "requires non-travis environment"
+skip_github() {
+  [ "$GITHUB_REF" != "" ] && skip "requires non-github environment"
   return 0
 }
 

@@ -13,7 +13,7 @@ teardown () {
 }
 
 @test "git status: returns MISMATCH if target exists and is not a repo" {
-  skip_travis
+  skip_github
   cd $BATS_TMPDIR/git
   mkdir lolspeak
   run fn status git@github.com:/matthewhadley/lolspeak
@@ -21,13 +21,13 @@ teardown () {
 }
 
 @test "git status: returns MISSING if repo is not present" {
-  skip_travis
+  skip_github
   run fn status $BATS_TMPDIR/git/missing
   [ $status -eq $STATUS_MISSING ]
 }
 
 @test "git status: returns OK if a repo exists and is up-to-date" {
-  skip_travis
+  skip_github
   cd $BATS_TMPDIR/git
   git clone git@github.com:/matthewhadley/lolspeak
   run fn status git@github.com:/matthewhadley/lolspeak
@@ -37,7 +37,7 @@ teardown () {
 }
 
 @test "git status: returns OUTDATED if a repo is behind" {
-  skip_travis
+  skip_github
   cd $BATS_TMPDIR/git
   git clone git@github.com:/matthewhadley/lolspeak
   cd lolspeak
@@ -48,7 +48,7 @@ teardown () {
 }
 
 @test "git status: returns CONFLICT if a repo is dirty" {
-  skip_travis
+  skip_github
   cd $BATS_TMPDIR/git
   git clone git@github.com:/matthewhadley/lolspeak
   cd lolspeak
@@ -59,7 +59,7 @@ teardown () {
 }
 
 @test "git status: returns CONFLICT if a repo is ahead" {
-  skip_travis
+  skip_github
   cd $BATS_TMPDIR/git
   git clone git@github.com:/matthewhadley/lolspeak
   cd lolspeak
@@ -74,7 +74,7 @@ teardown () {
 }
 
 @test "git status: returns CONFLICT if repo exists and is on another branch" {
-  skip_travis
+  skip_github
   cd $BATS_TMPDIR/git
   git clone git@github.com:/matthewhadley/lolspeak
   cd lolspeak
@@ -85,7 +85,7 @@ teardown () {
 }
 
 @test "git install: creates a repo if it is not present" {
-  skip_travis
+  skip_github
   cd $BATS_TMPDIR/git
   run fn install git@github.com:/matthewhadley/lolspeak
   [ "$status" -eq $STATUS_OK ]
@@ -94,7 +94,7 @@ teardown () {
 }
 
 @test "git install: creates a repo if it is not present, respecting the --dir target" {
-  skip_travis
+  skip_github
   run fn install git@github.com:/matthewhadley/lolspeak --dir $BATS_TMPDIR/git/lolspeak2
   [ "$status" -eq $STATUS_OK ]
   run ls -l $BATS_TMPDIR/git/lolspeak2
@@ -102,7 +102,7 @@ teardown () {
 }
 
 @test "git install: updates a local repo from an outdated branch" {
-  skip_travis
+  skip_github
   cd $BATS_TMPDIR/git
   git clone git@github.com:/matthewhadley/lolspeak
   cd lolspeak
