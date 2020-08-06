@@ -23,9 +23,6 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: run tests
-      env:
-        # Note: set this secret in each repo's Secrets
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
         sudo npm install -g bats
         ./test.sh
