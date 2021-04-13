@@ -1,4 +1,4 @@
-# [![Bolt](https://raw.githubusercontent.com/matthewhadley/bolt/master/assets/bolt-64.png)](https://github.com/matthewhadley/bolt) Bolt [![](https://travis-ci.org/matthewhadley/bolt.svg)](https://travis-ci.org/matthewhadley/bolt)
+# [![Bolt](https://raw.githubusercontent.com/matthewhadley/bolt/master/assets/bolt-64.png)](https://github.com/matthewhadley/bolt) Bolt
 
 Bolt is a bash-based DSL for making assertions about the state of a system.
 
